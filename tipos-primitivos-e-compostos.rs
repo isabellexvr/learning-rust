@@ -25,6 +25,7 @@ fn main() {
 
     let float1: f32 = 1.0;
     let float2: f64 = 1.0;
+    println!("oi\n");
     println!("floats: {} {}", float1, float2);
 
     let bool1: bool = true;
