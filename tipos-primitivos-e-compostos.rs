@@ -18,7 +18,7 @@ fn main() {
     // floats: f32, f64
 
     // booleanos: bool
-
+    let int3: u8 = 255;
     let int1: i32 = -10;
     let int2: u8 = 255;
     println!("inteiros: {} {}", int1, int2);
