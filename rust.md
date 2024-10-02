@@ -108,7 +108,6 @@ fn intervalo() {
 	}
 }
 
-
 `````
 
 
@@ -125,6 +124,146 @@ fn main() {
     match some_number {
         Some(value) => println!("O número é: {}", value),
         None => println!("Não há número."),
+    }
+}
+`````
+
+Structs:
+ - agrupam campos inter-relacionados
+ - similar às tuplas, mas cada entrada (variável) terá um nome e uma tipagem para ela
+ - nome + tipo = campo
+
+````Rust
+fn main() {
+    let user1 = User { 
+	    active: true, 
+	    username: String::from("someusername123"), 
+	    email: String::from("someone@example.com"), 
+	    sign_in_count: 1, 
+	};
+	let mut user1 = User { 
+		active: true, 
+		username: String::from("someusername123"), 
+		email: String::from("someone@example.com"), 
+		sign_in_count: 1, 
+	}; 
+		
+	user1.email = String::from("anotheremail@example.com");
+}
+`````
+
+Enums:
+- enums fornecem uma maneira de dizer que um valor é um de um conjunto possível de valores
+
+````Rust
+struct QuitMessage; // unit struct
+struct MoveMessage {
+    x: i32,
+    y: i32,
+}
+struct WriteMessage(String); // tuple struct
+struct ChangeColorMessage(i32, i32, i32); // tuple struct
+
+// tudo isso acima pode ser resumido em:
+
+enum Message {
+    Quit,
+    Move { x: i32, y: i32 },
+    Write(String),
+    ChangeColor(i32, i32, i32),
+}
+
+// pode-se verificar os valores do enum com match:
+
+fn process_message(msg: Message) {
+    match msg {
+        Message::Quit => println!("Received Quit message"),
+        Message::Move { x, y } => println!("Moving to x: {}, y: {}", x, y),
+        Message::Write(text) => println!("Writing message: {}", text),
+        Message::ChangeColor(r, g, b) => println!("Changing color to R: {}, G: {}, B: {}", r, g, b),
+    }
+}
+
+
+`````
+
+Namespaces
+- são uma maneira de organizar e encapsular identificadores, como funções, tipos, constantes e módulos, para evitar conflitos de nome e tornar o código mais legível e organizado.
+
+````Rust
+mod my_module {
+    pub fn my_function() {
+        println!("Hello from my_function!");
+    }
+}
+
+use my_module::my_function; // Traz `my_function` para o escopo
+
+fn main() {
+    my_function(); // Chama a função sem precisar do prefixo do módulo
+}
+`````
+
+### Macros:
+- permitem gerar código de forma programática. Elas ajudam a reduzir a repetição de código e podem ser usadas para simplificar tarefas comuns.
+
+#### **Macros de Declaração (Declarative Macros)**: Usam a sintaxe `macro_rules!` e são utilizadas para gerar código com base em padrões. Elas são geralmente usadas para simplificar código repetitivo.
+
+````Rust
+macro_rules! say_hello {
+    () => {
+        println!("Hello, World!");
+    };
+}
+
+fn main() {
+    say_hello!(); // Chama a macro que imprime "Hello, World!"
+}
+
+`````
+
+#### **Macros de Procedimento (Procedural Macros)**: Estas são um tipo mais avançado de macro que permite manipular o código de maneira mais complexa. Elas podem ser usadas para criar novos atributos ou derive (como `#[derive(Debug)]`), e são especialmente úteis para criar funcionalidades mais avançadas.
+
+- Diferença entre função comum e macro declarativa:
+````Rust
+macro_rules! doubleMacroFunc {
+    ($x:expr) => {
+        $x * 2
+    };
+}
+
+fn doubleFunc(x: i32) -> i32 { 
+	x * 2 
+}
+
+fn main() {
+    let resultMacro = doubleMacroFunc!(5); // Expande para `5 * 2`
+    println!("Double: {}", resultMacro); // Imprime: Double: 10
+
+	let resultFunc = double(5); // Chama a função 
+	println!("Double: {}", resultFunc); // Imprime: Double: 10
+}
+
+
+`````
+
+### A macro `vec!`
+
+- ajuda sintaticamente a criar vetores!
+- A macro `vec!` é definida na biblioteca padrão e simplifica a criação de vetores. Quando você usa `vec!`, a macro cria um novo vetor e o inicializa com os valores que você fornece.
+- não precisa definir tipos
+
+````Rust
+fn main() {
+    let mut scores = vec![100, 90, 80, 70];
+
+    // Adicionando um novo score
+    scores.push(85);
+    println!("Scores: {:?}", scores); // Imprime: Scores: [100, 90, 80, 70, 85]
+
+    // Iterando sobre os scores
+    for score in &scores {
+        println!("Score: {}", score);
     }
 }
 `````
